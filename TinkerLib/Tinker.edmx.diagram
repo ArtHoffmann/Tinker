@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="cf896d952da34e818c0c3933b96a208e" Name="Diagram1">
+        <EntityTypeShape EntityType="Tinker_DTO.Devices" Width="1.5" PointX="0.75" PointY="1.125" />
+        <EntityTypeShape EntityType="Tinker_DTO.Sensors" Width="1.5" PointX="3" PointY="0.875" />
+        <EntityTypeShape EntityType="Tinker_DTO.Values" Width="1.5" PointX="5.25" PointY="0.875" />
+        <AssociationConnector Association="Tinker_DTO.fk_Sensoren_Devices" />
+        <AssociationConnector Association="Tinker_DTO.fk_Measures_Sensoren1" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

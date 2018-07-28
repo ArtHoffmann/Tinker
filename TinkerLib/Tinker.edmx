@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Tinker_DTO.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Devices">
+          <Key>
+            <PropertyRef Name="idDevices" />
+          </Key>
+          <Property Name="idDevices" Type="int" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="45" />
+          <Property Name="Country" Type="varchar" MaxLength="45" />
+        </EntityType>
+        <EntityType Name="Sensors">
+          <Key>
+            <PropertyRef Name="idSensoren" />
+            <PropertyRef Name="Devices_idDevices" />
+          </Key>
+          <Property Name="idSensoren" Type="int" Nullable="false" />
+          <Property Name="Devices_idDevices" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="45" />
+          <Property Name="Measure" Type="varchar" MaxLength="45" />
+        </EntityType>
+        <EntityType Name="Values">
+          <Key>
+            <PropertyRef Name="idMeasures" />
+            <PropertyRef Name="Sensoren_idSensoren" />
+            <PropertyRef Name="Sensoren_Devices_idDevices" />
+          </Key>
+          <Property Name="idMeasures" Type="int" Nullable="false" />
+          <Property Name="Time" Type="datetime" Precision="0" />
+          <Property Name="Value" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="Sensoren_idSensoren" Type="int" Nullable="false" />
+          <Property Name="Sensoren_Devices_idDevices" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="fk_Measures_Sensoren1">
+          <End Role="Sensors" Type="Self.Sensors" Multiplicity="1" />
+          <End Role="Values" Type="Self.Values" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sensors">
+              <PropertyRef Name="idSensoren" />
+              <PropertyRef Name="Devices_idDevices" />
+            </Principal>
+            <Dependent Role="Values">
+              <PropertyRef Name="Sensoren_idSensoren" />
+              <PropertyRef Name="Sensoren_Devices_idDevices" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Sensoren_Devices">
+          <End Role="Devices" Type="Self.Devices" Multiplicity="1" />
+          <End Role="Sensors" Type="Self.Sensors" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Devices">
+              <PropertyRef Name="idDevices" />
+            </Principal>
+            <Dependent Role="Sensors">
+              <PropertyRef Name="Devices_idDevices" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Tinker_DTOStoreContainer">
+          <EntitySet Name="Devices" EntityType="Self.Devices" Schema="IOT Project" store:Type="Tables" />
+          <EntitySet Name="Sensors" EntityType="Self.Sensors" Schema="IOT Project" store:Type="Tables" />
+          <EntitySet Name="Values" EntityType="Self.Values" Schema="IOT Project" store:Type="Tables" />
+          <AssociationSet Name="fk_Measures_Sensoren1" Association="Self.fk_Measures_Sensoren1">
+            <End Role="Sensors" EntitySet="Sensors" />
+            <End Role="Values" EntitySet="Values" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Sensoren_Devices" Association="Self.fk_Sensoren_Devices">
+            <End Role="Devices" EntitySet="Devices" />
+            <End Role="Sensors" EntitySet="Sensors" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Tinker_DTO" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="IOT_ProjectEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Devices" EntityType="Tinker_DTO.Devices" />
+          <EntitySet Name="Sensors" EntityType="Tinker_DTO.Sensors" />
+          <EntitySet Name="Values" EntityType="Tinker_DTO.Values" />
+          <AssociationSet Name="fk_Sensoren_Devices" Association="Tinker_DTO.fk_Sensoren_Devices">
+            <End Role="Devices" EntitySet="Devices" />
+            <End Role="Sensors" EntitySet="Sensors" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Measures_Sensoren1" Association="Tinker_DTO.fk_Measures_Sensoren1">
+            <End Role="Sensors" EntitySet="Sensors" />
+            <End Role="Values" EntitySet="Values" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Devices">
+          <Key>
+            <PropertyRef Name="idDevices" />
+          </Key>
+          <Property Name="idDevices" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="Country" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Sensors" Relationship="Tinker_DTO.fk_Sensoren_Devices" FromRole="Devices" ToRole="Sensors" />
+        </EntityType>
+        <EntityType Name="Sensors">
+          <Key>
+            <PropertyRef Name="idSensoren" />
+            <PropertyRef Name="Devices_idDevices" />
+          </Key>
+          <Property Name="idSensoren" Type="Int32" Nullable="false" />
+          <Property Name="Devices_idDevices" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="Measure" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Devices" Relationship="Tinker_DTO.fk_Sensoren_Devices" FromRole="Sensors" ToRole="Devices" />
+          <NavigationProperty Name="Values" Relationship="Tinker_DTO.fk_Measures_Sensoren1" FromRole="Sensors" ToRole="Values" />
+        </EntityType>
+        <EntityType Name="Values">
+          <Key>
+            <PropertyRef Name="idMeasures" />
+            <PropertyRef Name="Sensoren_idSensoren" />
+            <PropertyRef Name="Sensoren_Devices_idDevices" />
+          </Key>
+          <Property Name="idMeasures" Type="Int32" Nullable="false" />
+          <Property Name="Time" Type="DateTime" />
+          <Property Name="Value" Type="Decimal" />
+          <Property Name="Sensoren_idSensoren" Type="Int32" Nullable="false" />
+          <Property Name="Sensoren_Devices_idDevices" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Sensors" Relationship="Tinker_DTO.fk_Measures_Sensoren1" FromRole="Values" ToRole="Sensors" />
+        </EntityType>
+        <Association Name="fk_Sensoren_Devices">
+          <End Type="Tinker_DTO.Devices" Role="Devices" Multiplicity="1" />
+          <End Type="Tinker_DTO.Sensors" Role="Sensors" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Devices">
+              <PropertyRef Name="idDevices" />
+            </Principal>
+            <Dependent Role="Sensors">
+              <PropertyRef Name="Devices_idDevices" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Measures_Sensoren1">
+          <End Type="Tinker_DTO.Sensors" Role="Sensors" Multiplicity="1" />
+          <End Type="Tinker_DTO.Values" Role="Values" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sensors">
+              <PropertyRef Name="idSensoren" />
+              <PropertyRef Name="Devices_idDevices" />
+            </Principal>
+            <Dependent Role="Values">
+              <PropertyRef Name="Sensoren_idSensoren" />
+              <PropertyRef Name="Sensoren_Devices_idDevices" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Tinker_DTOStoreContainer" CdmEntityContainer="IOT_ProjectEntities">
+          <EntitySetMapping Name="Devices">
+            <EntityTypeMapping TypeName="Tinker_DTO.Devices">
+              <MappingFragment StoreEntitySet="Devices">
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="idDevices" ColumnName="idDevices" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sensors">
+            <EntityTypeMapping TypeName="Tinker_DTO.Sensors">
+              <MappingFragment StoreEntitySet="Sensors">
+                <ScalarProperty Name="Measure" ColumnName="Measure" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Devices_idDevices" ColumnName="Devices_idDevices" />
+                <ScalarProperty Name="idSensoren" ColumnName="idSensoren" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Values">
+            <EntityTypeMapping TypeName="Tinker_DTO.Values">
+              <MappingFragment StoreEntitySet="Values">
+                <ScalarProperty Name="Sensoren_Devices_idDevices" ColumnName="Sensoren_Devices_idDevices" />
+                <ScalarProperty Name="Sensoren_idSensoren" ColumnName="Sensoren_idSensoren" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="idMeasures" ColumnName="idMeasures" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Kein" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
